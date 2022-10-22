@@ -1,0 +1,34 @@
+{
+	"name": "tamed-mailer",
+	"description": "A mailer to ease the Gmail and Office email sending.",
+	"version": "1.0.0",
+	"private": false,
+	"author": "MehmetKaplan",
+	"license": "MIT",
+	"repository": "MehmetKaplan/tamed-mailer",
+	"main": "tamed-mailer.js",
+	"scripts": {
+		"test": "jest --runInBand --coverage --no-cache --forceExit "
+	},
+	"peerDependencies": {},
+	"dependencies": {
+		"@azure/msal-node": "^1.14.2",
+		"fetch-lean": "^1.0.3",
+		"nodemailer": "^6.8.0",
+		"tick-log": "^1.1.2"
+	},
+	"devDependencies": {
+		"jest": "^29.2.1"
+	},
+	"keywords": [
+		"mail",
+		"node",
+		"javascript",
+		"gmail",
+		"office",
+		"microsoft-office",
+		"office365",
+		"365",
+		"office-365"
+	]
+}
