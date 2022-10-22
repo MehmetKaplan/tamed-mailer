@@ -1,9 +1,9 @@
 In order to send automatic mails via Gmail and Microsoft's Office, the complex steps are made procedural with this library.
 **NOTE:** Reqiuires `node -v` >= 18. Or can be used with `--experimental-fetch` flag for  `node -v` = 16.
 
-## Grant Mails to Send Mail Automatically from Microsoft Office 365 and Gmail
+### Grant Mails to Send Mail Automatically from Microsoft Office 365 and Gmail
 
-### Microsoft Office 365
+#### Microsoft Office 365
 
 1. Go to https://portal.azure.com
 2. Login as the mail address you will send the mails from (like automail@YOURDOMAIN.com)
@@ -29,13 +29,13 @@ In order to send automatic mails via Gmail and Microsoft's Office, the complex s
 22. Click on "Application permissions"
 23. Click on "Mail.Send"
 24. Click on "Add permissions"
-25. In an other session, again go to the https://portal.azure.com login as Office 365 admin user for 25URDOMAIN (like admin@YOURDOMAIN.com)
-26. Follow the same path as above to reach "App registrations"
-27. Check all applications tab page
-28. Click on "YOURDOMAIN Automail"
-29. Click on "API permissions"
-30. Click on "Grant admin consent for YOURDOMAIN"
-31. Click on "Overview"	
+26. In an other session, again go to the https://portal.azure.com login as Office 365 admin user for 25URDOMAIN (like admin@YOURDOMAIN.com)
+27. Follow the same path as above to reach "App registrations"
+28. Check all applications tab page
+29. Click on "YOURDOMAIN Automail"
+30. Click on "API permissions"
+31. Click on "Grant admin consent for YOURDOMAIN"
+32. Click on "Overview"	
 
 Set the variables coming from steps 14, 16, 17
 ```bash
@@ -46,7 +46,7 @@ export TAMED_MAILER_OFFICE_TENANT_ID="Comes-From-Step-17-Should-Be-36-Char"
 
 ```
 
-### Gmail
+#### Gmail
 
 1. Go to https://myaccount.google.com/ and login with your user
 2. Click the "Security" from left navigation menu
@@ -65,13 +65,13 @@ export TAMED_MAILER_GMAIL_APP_PASSWORD="ComesFromStep-10"
 export TAMED_MAILER_GMAIL_SERVICE="Gmail"
 ```
 
-## Installation
+### Installation
 
 ```
 yarn add tamed-mailer
 ```
 
-## Usage
+### Usage
 
 ```javascript
 const { sendMailviaGmail, sendMailviaOffice } = require('../tamed-mailer');
@@ -90,7 +90,7 @@ let response4 = await sendMailviaOffice([mailTo], mailSubject, htmlMailContent, 
 ```
 
 
-## API
+### API
 
 #### sendMailviaGmail
 | Name  | Description |
@@ -109,11 +109,11 @@ let response4 = await sendMailviaOffice([mailTo], mailSubject, htmlMailContent, 
 | mailBody | The mail body                     |
 | mailType | Acceptable values are `'text'`, `'html'` to indicate if the mail body is plain text or html respectively                    |
 
-## License
+### License
 
 The license is MIT and full text [here](LICENSE).
 
-### Used Modules
+#### Used Modules
 
 * tick-log license [here](./OtherLicenses/tick-log.txt)
 * fetch-lean license [here](./OtherLicenses/fetch-lean.txt)
