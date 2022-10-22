@@ -29,13 +29,13 @@ In order to send automatic mails via Gmail and Microsoft's Office, the complex s
 22. Click on "Application permissions"
 23. Click on "Mail.Send"
 24. Click on "Add permissions"
-26. In an other session, again go to the https://portal.azure.com login as Office 365 admin user for 25URDOMAIN (like admin@YOURDOMAIN.com)
-27. Follow the same path as above to reach "App registrations"
-28. Check all applications tab page
-29. Click on "YOURDOMAIN Automail"
-30. Click on "API permissions"
-31. Click on "Grant admin consent for YOURDOMAIN"
-32. Click on "Overview"	
+25. In an other session, again go to the https://portal.azure.com login as Office 365 admin user for YOURDOMAIN (like admin@YOURDOMAIN.com)
+26. Follow the same path as above to reach "App registrations"
+27. Check all applications tab page
+28. Click on "YOURDOMAIN Automail"
+39. Click on "API permissions"
+30. Click on "Grant admin consent for YOURDOMAIN"
+31. Click on "Overview"	
 
 Set the variables coming from steps 14, 16, 17
 ```bash
