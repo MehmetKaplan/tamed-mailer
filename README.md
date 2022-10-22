@@ -74,7 +74,7 @@ yarn add tamed-mailer
 ### Usage
 
 ```javascript
-const { sendMailviaGmail, sendMailviaOffice } = require('../tamed-mailer');
+const { sendMailviaGmail, sendMailviaOffice } = require('tamed-mailer');
 
 const gmailFrom = "tamed-mailer@gmail.com"; // gmail is to automatically convert this to the configured gmail account
 const mailTo = "tamed-mailer@yopmail.com";
