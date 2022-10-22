@@ -1,7 +1,7 @@
 {
 	"name": "tamed-mailer",
 	"description": "A mailer to ease the Gmail and Office email sending.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"private": false,
 	"author": "MehmetKaplan",
 	"license": "MIT",
