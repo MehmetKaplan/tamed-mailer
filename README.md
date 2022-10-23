@@ -74,7 +74,7 @@ yarn add tamed-mailer
 ### Usage
 
 ```javascript
-const { sendMailviaGmail, sendMailviaOffice } = require('tamed-mailer');
+const { tamedMailer } = require('tamed-mailer');
 
 const gmailFrom = "tamed-mailer@gmail.com"; // gmail is to automatically convert this to the configured gmail account
 const mailTo = "tamed-mailer@yopmail.com";
@@ -82,32 +82,33 @@ const mailSubject = "Test Mail Subject";
 const textMailContent = "This is a text based test mail.\nLine2\nLine3";
 const htmlMailContent = `<span style="color: blue"><h1>This is an HTML based test mail</h1><br>Line2<br>Line3</b></span>`;
 
-let response1 = await sendMailviaGmail(gmailFrom, mailTo, mailSubject, textMailContent, undefined);
-let response2 = await sendMailviaGmail(gmailFrom, mailTo, mailSubject, undefined, htmlMailContent);
-let response3 = await sendMailviaOffice([mailTo], mailSubject, textMailContent, 'text');
-let response4 = await sendMailviaOffice([mailTo], mailSubject, htmlMailContent, 'html');
+let credentials = {
+	client_secret: 'OFFICE_CLIENT_SECRET',
+	client_id: 'OFFICE_CLIENT_ID',
+	tenant_id: 'OFFICE_TENANT_ID',
+	from_mail: 'OFFICE_FROM_MAIL',
+};
+let response = await tamedMailer('office', credentials, mailTo, mailSubject, textMailContent, 'text');
+
+let credentials2 = {
+	user: 'TAMED_MAILER_GMAIL_USER',
+	app_password: 'TAMED_MAILER_GMAIL_APP_PASSWORD',
+}
+let response2 = await tamedMailer('gmail', credentials2, mailTo, mailSubject, textMailContent, 'text');
 
 ```
 
-
 ### API
 
-#### sendMailviaGmail
+### tamedMailer
 | Name  | Description |
 |-------|-------------|
-| p_from | From mail address, Gmail automatically converts this value to the registered mail address, so practically useless but good for code readability |
-| p_to | The reciepent addresss          |
-| p_subject | The subject line          |
-| p_text | If the message is a text only message, place it here and leave `p_html` as `undefined`          |
-| p_html | If the message is a HTML message, place it here and leave `p_text` as `undefined`          |
-
-#### sendMailviaOffice
-| Name  | Description |
-|-------|-------------|
-| mailToAsArray | The reciepents. **Pass an array even if the reciepent is only a single mail. (You can check the example usage.)                     |
-| mailSubject | The subject line                       |
-| mailBody | The mail body                     |
-| mailType | Acceptable values are `'text'`, `'html'` to indicate if the mail body is plain text or html respectively                    |
+| p_gmail_or_office | Should be either `gmail` or `office`. No other values are allowed. Case sensitive. |
+| p_credentials | Depends on the value of `p_gmail_or_office`.<br>If it was `'gmail'` then following keys must exist: `user`, `app_password`.<br>If it was `'office'`, then following keys must exist: `client_secret`, `client_id`, `tenant_id`, `from_mail`. |
+| p_to | Single reciever of the email. In order to send for multiple reciepents, function must be called multiple times. |
+| p_subject | Subject line. |
+| p_body | Body of the mail, depending on `p_html_or_text`, should be either plain text or an html text. |
+| p_html_or_text | Should be either `html` or `text`. Case sensitive. Dictates how to treat the `p_body` parameter. |
 
 ### License
 

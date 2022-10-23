@@ -99,10 +99,55 @@ const sendMailviaOffice = (mailToAsArray, mailSubject, mailBody, mailType) => ne
 	}
 });
 
+const tamedMailer = (p_gmail_or_office, p_credentials, p_to, p_subject, p_body, p_html_or_text) => new Promise (async (resolve, reject) => {
+	try {
+		let l_retval;
+		/* istanbul ignore if */
+		if (['gmail', 'office'].indexOf(p_gmail_or_office) === -1) throw new Error(`Invalid p_gmail_or_office: ${p_gmail_or_office}.`);
+		/* istanbul ignore if */
+		if (['html', 'text'].indexOf(p_html_or_text) === -1) throw new Error(`Invalid p_html_or_text: ${p_html_or_text}.`);
+		/* istanbul ignore if */
+		if (!p_credentials) throw new Error(`Invalid p_credentials: ${p_credentials}.`);
+		if (p_gmail_or_office === 'gmail') {
+			let l_old_TAMED_MAILER_GMAIL_SERVICE = process.env.TAMED_MAILER_GMAIL_SERVICE;
+			let l_old_TAMED_MAILER_GMAIL_USER = process.env.TAMED_MAILER_GMAIL_USER;
+			let l_old_TAMED_MAILER_GMAIL_APP_PASSWORD = process.env.TAMED_MAILER_GMAIL_APP_PASSWORD;
+			process.env.TAMED_MAILER_GMAIL_SERVICE = 'Gmail';
+			process.env.TAMED_MAILER_GMAIL_USER = p_credentials.user;
+			process.env.TAMED_MAILER_GMAIL_APP_PASSWORD = p_credentials.app_password;
+			let l_text = (p_html_or_text === 'text') ? p_body : undefined;
+			let l_html = (p_html_or_text === 'html') ? p_body : undefined;
+			l_retval = await sendMailviaGmail(p_credentials.user, p_to, p_subject, l_text, l_html) ;
+			process.env.TAMED_MAILER_GMAIL_SERVICE = l_old_TAMED_MAILER_GMAIL_SERVICE;
+			process.env.TAMED_MAILER_GMAIL_USER = l_old_TAMED_MAILER_GMAIL_USER;
+			process.env.TAMED_MAILER_GMAIL_APP_PASSWORD = l_old_TAMED_MAILER_GMAIL_APP_PASSWORD;
+		};
+		if (p_gmail_or_office === 'office') {
+			let l_old_TAMED_MAILER_OFFICE_CLIENT_SECRET = process.env.TAMED_MAILER_OFFICE_CLIENT_SECRET;
+			let l_old_TAMED_MAILER_OFFICE_CLIENT_ID = process.env.TAMED_MAILER_OFFICE_CLIENT_ID;
+			let l_old_TAMED_MAILER_OFFICE_TENANT_ID = process.env.TAMED_MAILER_OFFICE_TENANT_ID;
+			let l_old_TAMED_MAILER_OFFICE_FROM_MAIL = process.env.TAMED_MAILER_OFFICE_FROM_MAIL;
+			process.env.TAMED_MAILER_OFFICE_CLIENT_SECRET = p_credentials.client_secret;
+			process.env.TAMED_MAILER_OFFICE_CLIENT_ID = p_credentials.client_id;
+			process.env.TAMED_MAILER_OFFICE_TENANT_ID = p_credentials.tenant_id;
+			process.env.TAMED_MAILER_OFFICE_FROM_MAIL = p_credentials.from_mail;
+			l_retval = await sendMailviaOffice([p_to], p_subject, p_body, p_html_or_text);
+			process.env.TAMED_MAILER_OFFICE_CLIENT_SECRET = l_old_TAMED_MAILER_OFFICE_CLIENT_SECRET;
+			process.env.TAMED_MAILER_OFFICE_CLIENT_ID = l_old_TAMED_MAILER_OFFICE_CLIENT_ID;
+			process.env.TAMED_MAILER_OFFICE_TENANT_ID = l_old_TAMED_MAILER_OFFICE_TENANT_ID;
+			process.env.TAMED_MAILER_OFFICE_FROM_MAIL = l_old_TAMED_MAILER_OFFICE_FROM_MAIL;
+		};
+		return resolve(l_retval);
+	} catch (error) {
+		tickLog.error(`Function tamedMailer failed. Error: ${JSON.stringify(error)}`);
+		return reject(error);
+	}
+});
 
 module.exports = {
 	sendMailviaGmail: sendMailviaGmail,
 	sendMailviaOffice: sendMailviaOffice,
+	tamedMailer: tamedMailer,
 	exportedForTesting: {
 	},
 }
