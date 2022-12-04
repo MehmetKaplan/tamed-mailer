@@ -1050,10 +1050,10 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
-fetch-lean@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/fetch-lean/-/fetch-lean-1.0.3.tgz#495858b0b5d71af762ca391144116b988c4a40dc"
-  integrity sha512-R+iziBVWAMWmybL0fBlG0KL4mVoX7Kz9EvufzGX+slBYNvPNvz6lXUbM1cu0wdtOpwyZCPhK9Vt3OFLF3CzI3w==
+fetch-lean@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/fetch-lean/-/fetch-lean-1.0.5.tgz#249ae54e8a686aaeb15320be8dd2ca683465b05f"
+  integrity sha512-QTNZCzh+Rr4QnrkUDueIwIANQ73oMZp0gSkz36F0RhHzfBw+1VImFy7YU8fYYZ4TzhrbL+cDEUWkQoye/BJT4w==
 
 fill-range@^7.0.1:
   version "7.0.1"

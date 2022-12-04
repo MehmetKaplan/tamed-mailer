@@ -1,7 +1,7 @@
 {
 	"name": "tamed-mailer",
 	"description": "A mailer to ease the Gmail and Microsoft Office 365 accounts' email sending.",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"private": false,
 	"author": "MehmetKaplan",
 	"license": "MIT",
@@ -13,7 +13,7 @@
 	"peerDependencies": {},
 	"dependencies": {
 		"@azure/msal-node": "^1.14.2",
-		"fetch-lean": "^1.0.3",
+		"fetch-lean": "^1.0.5",
 		"nodemailer": "^6.8.0",
 		"tick-log": "^1.1.2"
 	},
