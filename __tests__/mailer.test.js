@@ -50,14 +50,14 @@ test('Tamed mailer for gmail, both text and html, with wrong data ', async () =>
 		let response = await tamedMailer('gmail', credentials, mailTo, mailSubject, textMailContent, 'text');
 		expect(response).toBe("Should not come here!!!!!"); // should not reach here
 	} catch (error) {
-		tickLog.success(`Error caught as expected. Error: ${error}`);
+		tickLog.success(`Error caught as expected. Error: ${error}`, true);
 		expect(error).not.toBeNull();
 	}
 	try {
 		let response = await tamedMailer('gmail', credentials, mailTo, mailSubject, textMailContent, 'html');
 		expect(response).toBe("Should not come here!!!!!"); // should not reach here
 	} catch (error) {
-		tickLog.success(`Error caught as expected. Error: ${error}`);
+		tickLog.success(`Error caught as expected. Error: ${error}`, true);
 		expect(error).not.toBeNull();
 	}
 });
@@ -86,14 +86,14 @@ test('Tamed mailer for office, both text and html, with wrong data ', async () =
 		let response = await tamedMailer('office', credentials, mailTo, mailSubject, textMailContent, 'text');
 		expect(response).toBe("Should not come here!!!!!"); // should not reach here
 	} catch (error) {
-		tickLog.success(`Error caught as expected. Error: ${error}`);
+		tickLog.success(`Error caught as expected. Error: ${error}`, true);
 		expect(error).not.toBeNull();
 	}
 	try {
 		let response = await tamedMailer('office', credentials, mailTo, mailSubject, textMailContent, 'html');
 		expect(response).toBe("Should not come here!!!!!"); // should not reach here
 	} catch (error) {
-		tickLog.success(`Error caught as expected. Error: ${error}`);
+		tickLog.success(`Error caught as expected. Error: ${error}`, true);
 		expect(error).not.toBeNull();
 	}
 });

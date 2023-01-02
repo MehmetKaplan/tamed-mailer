@@ -15,7 +15,7 @@
 		"@azure/msal-node": "^1.14.2",
 		"fetch-lean": "^1.0.5",
 		"nodemailer": "^6.8.0",
-		"tick-log": "^1.1.2"
+		"tick-log": "^1.1.4"
 	},
 	"devDependencies": {
 		"jest": "^29.2.1"

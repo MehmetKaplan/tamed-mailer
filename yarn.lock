@@ -2119,10 +2119,10 @@ test-exclude@^6.0.0:
     glob "^7.1.4"
     minimatch "^3.0.4"
 
-tick-log@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/tick-log/-/tick-log-1.1.2.tgz#ceb71d7e6b8d8c7fb42236d33d97db05d6087637"
-  integrity sha512-90jSAgviRb18n978a7TuC+5DIp/u8+wTprV6FP/UGs5kwEgAHX0xHyqPn+QTHXjRnhu87Vj11xx+o4d6nx+XEw==
+tick-log@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/tick-log/-/tick-log-1.1.4.tgz#c1360e9cb52a9f999a908e4d6a5cb9f57102fa12"
+  integrity sha512-J9ZECcbyrCJnmhoGEdw0/AZ1UjJynyrELPNpfHHcCtVwJz3bbEX1X6QMgs2HOhHYU2BHcwHOozsVwZ2FzZoL3Q==
 
 tmpl@1.0.5:
   version "1.0.5"

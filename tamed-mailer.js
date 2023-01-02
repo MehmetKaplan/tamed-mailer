@@ -2,7 +2,7 @@
 const tickLog = require('tick-log');
 
 const sendMailviaGmail = (p_from, p_to, p_subject, p_text, p_html) => new Promise(async (resolve, reject) => {
-	tickLog.start(`Sending mail via Gmail. From: ${p_from}. To: ${p_to}. Subject: ${p_subject}.`);
+	tickLog.start(`Sending mail via Gmail. From: ${p_from}. To: ${p_to}. Subject: ${p_subject}.`, true);
 	const nodemailer = require('nodemailer');
 	try {
 		const nodemailerTransporterParameters = {
@@ -27,21 +27,21 @@ const sendMailviaGmail = (p_from, p_to, p_subject, p_text, p_html) => new Promis
 			transporter.close();
 			/* istanbul ignore if */
 			if (error) {
-				tickLog.error(`Function sendMailviaGmail failed. Error: ${JSON.stringify(error)}`);
+				tickLog.error(`Function sendMailviaGmail failed. Error: ${JSON.stringify(error)}`, true);
 				return (reject(error));
 			};
-			tickLog.success(`Email sent.`);
+			tickLog.success(`Email sent.`, true);
 			return (resolve(info));
 		});
 	} catch (error) /* istanbul ignore next */ {
-		tickLog.error(`Function sendMailviaGmail failed. Error: ${JSON.stringify(error)}`);
+		tickLog.error(`Function sendMailviaGmail failed. Error: ${JSON.stringify(error)}`, true);
 		return reject(error);
 	}
 });
 
 const sendMailviaOffice = (mailToAsArray, mailSubject, mailBody, mailType) => new Promise(async (resolve, reject) => {
 
-	tickLog.start(`Sending mail via Office 365. mailToAsArray: ${JSON.stringify(mailToAsArray)}. Subject: ${mailSubject}.`);
+	tickLog.start(`Sending mail via Office 365. mailToAsArray: ${JSON.stringify(mailToAsArray)}. Subject: ${mailSubject}.`, true);
 
 	try {
 		let toRecipients = mailToAsArray.map(curMail => { return { emailAddress: { address: curMail, } } });
@@ -91,10 +91,10 @@ const sendMailviaOffice = (mailToAsArray, mailSubject, mailBody, mailType) => ne
 		let body = { message: mail, saveToSentItems: false }
 		let uri = graphEndpoint + `/v1.0/users/${process.env.TAMED_MAILER_OFFICE_FROM_MAIL}/sendMail`;
 		let response = await fetchLean("POST", uri, headers, body)
-		tickLog.success(`Email sent. Response: ${JSON.stringify(response)}`);
+		tickLog.success(`Email sent. Response: ${JSON.stringify(response)}`, true);
 		return resolve(response);
 	} catch (error) /* istanbul ignore next */ {
-		tickLog.error(`Function sendMailviaOffice failed. Error: ${JSON.stringify(error)}`);
+		tickLog.error(`Function sendMailviaOffice failed. Error: ${JSON.stringify(error)}`, true);
 		return reject(error);
 	}
 });
@@ -139,7 +139,7 @@ const tamedMailer = (p_gmail_or_office, p_credentials, p_to, p_subject, p_body, 
 		};
 		return resolve(l_retval);
 	} catch (error) {
-		tickLog.error(`Function tamedMailer failed. Error: ${JSON.stringify(error)}`);
+		tickLog.error(`Function tamedMailer failed. Error: ${JSON.stringify(error)}`, true);
 		return reject(error);
 	}
 });
