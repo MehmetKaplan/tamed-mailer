@@ -39,7 +39,7 @@ const sendMailviaGmail = (p_from, p_to, p_subject, p_text, p_html) => new Promis
 	}
 });
 
-const sendMailviaOffice = (mailToAsArray, mailSubject, mailBody, mailType) => new Promise(async (resolve, reject) => {
+const sendMailviaOffice = (mailToAsArray, mailSubject, mailBody, mailType, p_scheduled_time) => new Promise(async (resolve, reject) => {
 
 	tickLog.start(`Sending mail via Office 365. mailToAsArray: ${JSON.stringify(mailToAsArray)}. Subject: ${mailSubject}.`, true);
 
@@ -56,7 +56,7 @@ const sendMailviaOffice = (mailToAsArray, mailSubject, mailBody, mailType) => ne
 		const aadEndpoint = 'https://login.microsoftonline.com';
 		const graphEndpoint = 'https://graph.microsoft.com';
 
-		const msalConfig = {
+		let msalConfig = {
 			auth: {
 				clientId,
 				clientSecret,
@@ -88,6 +88,14 @@ const sendMailviaOffice = (mailToAsArray, mailSubject, mailBody, mailType) => ne
 			subject: mailSubject,
 			body: combinedMailBody,
 		};
+		if (p_scheduled_time) {
+			mail.singleValueExtendedProperties = [
+            {
+                "id": "SystemTime 0x3FEF",
+                "value": p_scheduled_time
+            }
+        ]
+		}
 		let body = { message: mail, saveToSentItems: false }
 		let uri = graphEndpoint + `/v1.0/users/${process.env.TAMED_MAILER_OFFICE_FROM_MAIL}/sendMail`;
 		let response = await fetchLean("POST", uri, headers, body)
@@ -99,7 +107,7 @@ const sendMailviaOffice = (mailToAsArray, mailSubject, mailBody, mailType) => ne
 	}
 });
 
-const tamedMailer = (p_gmail_or_office, p_credentials, p_to, p_subject, p_body, p_html_or_text) => new Promise (async (resolve, reject) => {
+const tamedMailer = (p_gmail_or_office, p_credentials, p_to, p_subject, p_body, p_html_or_text, p_scheduled_time) => new Promise(async (resolve, reject) => {
 	try {
 		let l_retval;
 		/* istanbul ignore if */
@@ -109,6 +117,8 @@ const tamedMailer = (p_gmail_or_office, p_credentials, p_to, p_subject, p_body, 
 		/* istanbul ignore if */
 		if (!p_credentials) throw new Error(`Invalid p_credentials: ${p_credentials}.`);
 		if (p_gmail_or_office === 'gmail') {
+			/* istanbul ignore if */
+			if (p_scheduled_time) throw new Error(`Scheduled time not supported for Gmail.`);
 			let l_old_TAMED_MAILER_GMAIL_SERVICE = process.env.TAMED_MAILER_GMAIL_SERVICE;
 			let l_old_TAMED_MAILER_GMAIL_USER = process.env.TAMED_MAILER_GMAIL_USER;
 			let l_old_TAMED_MAILER_GMAIL_APP_PASSWORD = process.env.TAMED_MAILER_GMAIL_APP_PASSWORD;
@@ -117,7 +127,7 @@ const tamedMailer = (p_gmail_or_office, p_credentials, p_to, p_subject, p_body, 
 			process.env.TAMED_MAILER_GMAIL_APP_PASSWORD = p_credentials.app_password;
 			let l_text = (p_html_or_text === 'text') ? p_body : undefined;
 			let l_html = (p_html_or_text === 'html') ? p_body : undefined;
-			l_retval = await sendMailviaGmail(p_credentials.user, p_to, p_subject, l_text, l_html) ;
+			l_retval = await sendMailviaGmail(p_credentials.user, p_to, p_subject, l_text, l_html);
 			process.env.TAMED_MAILER_GMAIL_SERVICE = l_old_TAMED_MAILER_GMAIL_SERVICE;
 			process.env.TAMED_MAILER_GMAIL_USER = l_old_TAMED_MAILER_GMAIL_USER;
 			process.env.TAMED_MAILER_GMAIL_APP_PASSWORD = l_old_TAMED_MAILER_GMAIL_APP_PASSWORD;
@@ -131,7 +141,7 @@ const tamedMailer = (p_gmail_or_office, p_credentials, p_to, p_subject, p_body, 
 			process.env.TAMED_MAILER_OFFICE_CLIENT_ID = p_credentials.client_id;
 			process.env.TAMED_MAILER_OFFICE_TENANT_ID = p_credentials.tenant_id;
 			process.env.TAMED_MAILER_OFFICE_FROM_MAIL = p_credentials.from_mail;
-			l_retval = await sendMailviaOffice([p_to], p_subject, p_body, p_html_or_text);
+			l_retval = await sendMailviaOffice([p_to], p_subject, p_body, p_html_or_text, p_scheduled_time);
 			process.env.TAMED_MAILER_OFFICE_CLIENT_SECRET = l_old_TAMED_MAILER_OFFICE_CLIENT_SECRET;
 			process.env.TAMED_MAILER_OFFICE_CLIENT_ID = l_old_TAMED_MAILER_OFFICE_CLIENT_ID;
 			process.env.TAMED_MAILER_OFFICE_TENANT_ID = l_old_TAMED_MAILER_OFFICE_TENANT_ID;

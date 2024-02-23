@@ -8,7 +8,7 @@ const mailSubject = "Test Mail Subject";
 const textMailContent = "This is a text based test mail.\nLine2\nLine3";
 const htmlMailContent = `<span style="color: blue"><h1>This is an HTML based test mail</h1><br>Line2<br>Line3</b></span>`;
 
-jest.setTimeout(10000);
+jest.setTimeout(20000);
 
 test('GMAIL, Text based mail', async () => {
 	let response = await sendMailviaGmail(gmailFrom, mailTo, mailSubject, textMailContent, undefined);
@@ -75,7 +75,26 @@ test('Tamed mailer for office, both text and html', async () => {
 	expect(response2).not.toBeNull();
 });
 
+test('Tamed mailer for office, html, scheduled time', async () => {
+	let credentials = {
+		client_secret: process.env.TAMED_MAILER_OFFICE_CLIENT_SECRET,
+		client_id: process.env.TAMED_MAILER_OFFICE_CLIENT_ID,
+		tenant_id: process.env.TAMED_MAILER_OFFICE_TENANT_ID,
+		from_mail: process.env.TAMED_MAILER_OFFICE_FROM_MAIL,
+	};
+	// set scheduledTime to 2 minutes later
+	let currentTime = new Date();
+	let scheduledTime = new Date(currentTime.getTime() + 2 * 60000); // Add 2 minutes (2 * 60,000 milliseconds) to the current time
+	let response = await tamedMailer('office', credentials, mailTo, mailSubject, textMailContent, 'text', scheduledTime);
+	expect(response).not.toBeNull();
+	let response2 = await tamedMailer('office', credentials, mailTo, mailSubject, htmlMailContent, 'html', scheduledTime);
+	expect(response2).not.toBeNull();
+});
+
 test('Tamed mailer for office, both text and html, with wrong data ', async () => {
+	// wait 10 seconds before starting this test
+	// because this test modifies the environment variables
+	await new Promise(resolve => setTimeout(resolve, 10000));
 	let credentials = {
 		client_secret: 'wrong_client_secret',
 		client_id: 'wrong_client_id',
@@ -97,3 +116,4 @@ test('Tamed mailer for office, both text and html, with wrong data ', async () =
 		expect(error).not.toBeNull();
 	}
 });
+

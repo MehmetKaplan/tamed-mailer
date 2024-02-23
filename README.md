@@ -90,11 +90,18 @@ let credentials = {
 };
 let response = await tamedMailer('office', credentials, mailTo, mailSubject, textMailContent, 'text');
 
+// set scheduledTime to 2 minutes later
+let currentTime = new Date();
+let scheduledTime = new Date(currentTime.getTime() + 2 * 60000); // Add 2 minutes (2 * 60,000 milliseconds) to the current time
+let responseScheduled1 = await tamedMailer('office', credentials, mailTo, mailSubject, htmlMailContent, 'text', scheduledTime);
+
 let credentials2 = {
 	user: 'TAMED_MAILER_GMAIL_USER',
 	app_password: 'TAMED_MAILER_GMAIL_APP_PASSWORD',
 }
 let response2 = await tamedMailer('gmail', credentials2, mailTo, mailSubject, textMailContent, 'text');
+
+
 
 ```
 
@@ -109,6 +116,7 @@ let response2 = await tamedMailer('gmail', credentials2, mailTo, mailSubject, te
 | p_subject | Subject line. |
 | p_body | Body of the mail, depending on `p_html_or_text`, should be either plain text or an html text. |
 | p_html_or_text | Should be either `html` or `text`. Case sensitive. Dictates how to treat the `p_body` parameter. |
+| p_scheduled_time | Optional, only for Office Mails. If provided, the office mail will be sent at the given time. If not provided, the mail will be sent immediately. |
 
 ### License
 
