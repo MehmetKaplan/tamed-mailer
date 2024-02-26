@@ -119,6 +119,8 @@ const tamedMailer = (p_gmail_or_office, p_credentials, p_to, p_subject, p_body, 
 		if (p_gmail_or_office === 'gmail') {
 			/* istanbul ignore if */
 			if (p_scheduled_time) throw new Error(`Scheduled time not supported for Gmail.`);
+			/* istanbul ignore if */
+			if (p_save_to_sent_items) throw new Error(`Save to sent items not supported for Gmail.`);
 			let l_old_TAMED_MAILER_GMAIL_SERVICE = process.env.TAMED_MAILER_GMAIL_SERVICE;
 			let l_old_TAMED_MAILER_GMAIL_USER = process.env.TAMED_MAILER_GMAIL_USER;
 			let l_old_TAMED_MAILER_GMAIL_APP_PASSWORD = process.env.TAMED_MAILER_GMAIL_APP_PASSWORD;

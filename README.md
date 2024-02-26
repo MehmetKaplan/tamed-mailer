@@ -117,6 +117,7 @@ let response2 = await tamedMailer('gmail', credentials2, mailTo, mailSubject, te
 | p_body | Body of the mail, depending on `p_html_or_text`, should be either plain text or an html text. |
 | p_html_or_text | Should be either `html` or `text`. Case sensitive. Dictates how to treat the `p_body` parameter. |
 | p_scheduled_time | Optional, only for Office Mails. If provided, the office mail will be sent at the given time. If not provided, the mail will be sent immediately. |
+| p_save_to_sent_items | Optional, only for Office Mails. If provided, the mail will be saved to the sent items. If not provided, the mail will not be saved to the sent items. |
 
 ### License
 
