@@ -39,7 +39,7 @@ const sendMailviaGmail = (p_from, p_to, p_subject, p_text, p_html) => new Promis
 	}
 });
 
-const sendMailviaOffice = (mailToAsArray, mailSubject, mailBody, mailType, p_scheduled_time) => new Promise(async (resolve, reject) => {
+const sendMailviaOffice = (mailToAsArray, mailSubject, mailBody, mailType, p_scheduled_time, p_save_to_sent_items = false) => new Promise(async (resolve, reject) => {
 
 	tickLog.start(`Sending mail via Office 365. mailToAsArray: ${JSON.stringify(mailToAsArray)}. Subject: ${mailSubject}.`, true);
 
@@ -96,7 +96,7 @@ const sendMailviaOffice = (mailToAsArray, mailSubject, mailBody, mailType, p_sch
             }
         ]
 		}
-		let body = { message: mail, saveToSentItems: false }
+		let body = { message: mail, saveToSentItems: p_save_to_sent_items }
 		let uri = graphEndpoint + `/v1.0/users/${process.env.TAMED_MAILER_OFFICE_FROM_MAIL}/sendMail`;
 		let response = await fetchLean("POST", uri, headers, body)
 		tickLog.success(`Email sent. Response: ${JSON.stringify(response)}`, true);
@@ -107,7 +107,7 @@ const sendMailviaOffice = (mailToAsArray, mailSubject, mailBody, mailType, p_sch
 	}
 });
 
-const tamedMailer = (p_gmail_or_office, p_credentials, p_to, p_subject, p_body, p_html_or_text, p_scheduled_time) => new Promise(async (resolve, reject) => {
+const tamedMailer = (p_gmail_or_office, p_credentials, p_to, p_subject, p_body, p_html_or_text, p_scheduled_time, p_save_to_sent_items = false) => new Promise(async (resolve, reject) => {
 	try {
 		let l_retval;
 		/* istanbul ignore if */
@@ -141,7 +141,7 @@ const tamedMailer = (p_gmail_or_office, p_credentials, p_to, p_subject, p_body, 
 			process.env.TAMED_MAILER_OFFICE_CLIENT_ID = p_credentials.client_id;
 			process.env.TAMED_MAILER_OFFICE_TENANT_ID = p_credentials.tenant_id;
 			process.env.TAMED_MAILER_OFFICE_FROM_MAIL = p_credentials.from_mail;
-			l_retval = await sendMailviaOffice([p_to], p_subject, p_body, p_html_or_text, p_scheduled_time);
+			l_retval = await sendMailviaOffice([p_to], p_subject, p_body, p_html_or_text, p_scheduled_time, p_save_to_sent_items);
 			process.env.TAMED_MAILER_OFFICE_CLIENT_SECRET = l_old_TAMED_MAILER_OFFICE_CLIENT_SECRET;
 			process.env.TAMED_MAILER_OFFICE_CLIENT_ID = l_old_TAMED_MAILER_OFFICE_CLIENT_ID;
 			process.env.TAMED_MAILER_OFFICE_TENANT_ID = l_old_TAMED_MAILER_OFFICE_TENANT_ID;
